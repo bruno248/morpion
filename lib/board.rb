@@ -1,26 +1,42 @@
 require 'pry'
 
-class Board
-
 require_relative 'Boardcase'
 
+class Board
 
-  attr_accessor :Boardcase
-  def initialize(Boardcase)
-    @Boardcase = boardcase
-    #Quand la classe s'initialize, elle doit créer 9 instances BoardCases
-   #Ces instances sont rangées dans un array/hash qui est 
-    #l'attr_accessor de la classe
+attr_accessor :board_hash, :round
+
+  def initialize
+    @round = 0
+    @board_hash = Hash.new
+    named= %w(A B C)
+    named.each do |n|
+      3.times do |i| 
+        @board_hash["#{n}#{i+1}"] #= CaseBoard.new("#{n}#{i+1}")
+      end
+    end
+  end
+  
+  def change_state(player, case_choisi)
+    case_choisi.state = player.value 
+    @round += 1
   end
 
-  def Boardcase
-      #Boardcase. each do |Boardcase|
-     # Boardcase
-     get_identifiant("A1")
-     get_identifiant("B1")
+  def is_empty?(case_choisi)
+    case_choisi.state == '  '
+  end
+
+  def victory?
+    if @round == 9
+        return "match nul"
+    else
+        return "victoire"
   end
 
 end
+
+binding pry
+
 
 
 
@@ -34,6 +50,4 @@ end
 #     end
 # end
 
-def victory?
-  #TO DO : une méthode qui vérifie le plateau et indique s'il y a un vainqueur ou match nul
 end
